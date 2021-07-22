@@ -1,0 +1,27 @@
+---
+
+# Receptor node name
+- node:
+    id: {{ node_name }}
+
+# Port listener
+- tcp-listener:
+    port: {{ node_port }}
+
+# All peers connections to{% for peer in peers %}
+- tcp-peer:
+    address: "{{ peer['domain'] }}:{{ peer['port'] }}"
+{% endfor %}
+
+# File socket{% if node_socket_file_path is defined %}
+- control-service:
+    service: control
+    filename: {{ node_socket_file_path }}
+{% endif %}
+
+# Work command
+- work-command:
+    worktype: echo
+    command: echo
+    params: arceus
+    allowruntimeparams: true
