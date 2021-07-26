@@ -1,0 +1,11 @@
+---
+version: "3.9"
+services:
+{% for peer in peers %}
+  {{ peer['node_name'] }}:
+    hostname: {{ peer['node_name'] }}
+    build: ./container/receptor/
+    command: receptor -c /configs/{{ peer['node_name'] }}.yaml
+    volumes:
+      - ./configs:/configs
+{% endfor %}
